@@ -8,6 +8,10 @@ public class Item {
         this.x = x;
         this.y = y;
     }
+
+    public void display() {
+        System.out.println("Item at position (" + x + ", " + y + ")");
+    }
 }
 
 class Treasure extends Item {
@@ -17,6 +21,12 @@ class Treasure extends Item {
         super(x, y);
         this.value = value;
     }
+
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("Treasure value: " + value);
+    }
 }
 
 class Upgrade extends Item {
@@ -25,5 +35,11 @@ class Upgrade extends Item {
     public Upgrade(int x, int y, String type) {
         super(x, y);
         this.type = type;
+    }
+
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("Upgrade type: " + type);
     }
 }
