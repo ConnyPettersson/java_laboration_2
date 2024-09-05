@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Movable {
     private String name;
     private int x;
     private int y;
@@ -17,12 +17,15 @@ public class Player {
         this.health = health;
         this.strength = strength;
         this.items = new ArrayList<>();
+
+
     }
 
     public void addItem(Item item) {
         items.add(item);
     }
 
+    @Override
     public void move(int dx, int dy) {
         x += dx;
         y += dy;
