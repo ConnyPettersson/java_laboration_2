@@ -34,7 +34,7 @@ public class Game {
                 case "D": dx = 1; break;
                 default: System.out.println("Invalid key"); continue;
             }
-            player.moveAndCheckMonster(dx, dy, monster);
+            player.move(dx, dy, maze);
         }
     }
 }

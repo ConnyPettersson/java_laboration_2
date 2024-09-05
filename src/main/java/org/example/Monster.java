@@ -27,13 +27,19 @@ public class Monster implements Movable {
         return name;
     }
 
-    @Override
-    public void move(int dx, int dy) {
-        x += dx;
-        y += dy;
+    public String  toString() {
+        return String.format("Monster %s at (%d, %d) with health %d and strength %d", name, x, y, health, strength);
     }
 
-    public String  toString() {
-        return String.format("Monster %s at (%s, %s)", name, x, y);
+    @Override
+    public void move(int dx, int dy, Maze maze) {
+        int newX = x + dx;
+        int newY = y + dy;
+        if (newY >= 0 && newY < maze.grid.length && newX >= 0 && newX < maze.grid[newY].length && maze.grid[newY][newX] != '#') {
+            x = newX;
+            y = newY;
+        } else {
+            System.out.println("Move blocked: " + name + " cannot move through walls.");
+        }
     }
 }

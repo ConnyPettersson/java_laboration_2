@@ -1,7 +1,7 @@
 package org.example;
 
 public class Maze {
-    private char[][] grid;
+    char[][] grid;
 
     public Maze(char[][] grid) {
         this.grid = grid;
