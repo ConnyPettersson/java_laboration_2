@@ -22,6 +22,7 @@ public class Player implements Movable {
     }
 
     public void moveAndCheckMonster(int dx, int dy, Monster monster) {
+        move(dx, dy);
         if(x == monster.getX() && y == monster.getY()) {
             System.out.println("You have encountered the Monster " + monster.getName() + "!");
         }
@@ -31,10 +32,21 @@ public class Player implements Movable {
         items.add(item);
     }
 
+
     @Override
     public void move(int dx, int dy) {
+        System.out.println("Before move: (" + x + ", " + y + ")");
         x += dx;
         y += dy;
+        System.out.println("After move: (" + x + ", " + y + ")");
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     @Override
