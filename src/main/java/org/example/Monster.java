@@ -15,6 +15,18 @@ public class Monster implements Movable {
         this.strength = strength;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public void move(int dx, int dy) {
         x += dx;

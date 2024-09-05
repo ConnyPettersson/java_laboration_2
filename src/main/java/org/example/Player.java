@@ -21,6 +21,12 @@ public class Player implements Movable {
 
     }
 
+    public void moveAndCheckMonster(int dx, int dy, Monster monster) {
+        if(x == monster.getX() && y == monster.getY()) {
+            System.out.println("You have encountered the Monster " + monster.getName() + "!");
+        }
+    }
+
     public void addItem(Item item) {
         items.add(item);
     }
