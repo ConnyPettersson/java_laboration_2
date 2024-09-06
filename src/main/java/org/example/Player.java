@@ -4,16 +4,14 @@ import java.util.ArrayList;
 
 public class Player implements Movable {
     private String name;
-    private int x;
-    private int y;
+    private Position position;
     private int health;
     private int strength;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public Player(String name, int x, int y, int health, int strength) {
+    public Player(String name, Position position, int health, int strength) {
         this.name = name;
-        this.x = x;
-        this.y = y;
+        this.position = position;
         this.health = health;
         this.strength = strength;
         this.items = new ArrayList<>();
@@ -23,7 +21,7 @@ public class Player implements Movable {
 
     public void moveAndCheckMonster(int dx, int dy, Monster monster, Maze maze) {
         move(dx, dy, maze);
-        if(x == monster.getX() && y == monster.getY()) {
+        if(position.getX() == monster.getX() && position.getY() == monster.getY()) {
             System.out.println("You have encountered the Monster " + monster.getName() + "!");
         }
     }
@@ -35,26 +33,27 @@ public class Player implements Movable {
 
     @Override
     public void move(int dx, int dy, Maze maze) {
-        int newX = x + dx;
-        int newY = y + dy;
-        if (maze.isValid(newX, newY)) {
-            x = newX;
-            y = newY;
+        int newX = position.getX() + dx;
+        int newY = position.getY() + dy;
+        Position newPosition = new Position(newX, newY);
+        if (maze.isValid(newPosition)) {
+            position = newPosition;  // Update the entire position object to the new position
         } else {
             System.out.println("Move blocked by a wall.");
         }
     }
 
+
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     @Override
     public String toString() {
-        return String.format("Player %s at (%d, %d) with health %d and strength %d", name, x, y, health, strength);
+        return String.format("Player %s at (%d, %d) with health %d and strength %d", name, position.getX(), position.getY(), health, strength);
     }
 }

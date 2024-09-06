@@ -7,10 +7,10 @@ public class Maze {
         this.grid = grid;
     }
 
-    public boolean isValid(int x, int y) {
-        return y >= 0 && y < grid.length &&
-               x >= 0 && x < grid[y].length &&
-               grid[y][x] != '#';
+    public boolean isValid(Position position) {
+        return position.getY() >= 0 && position.getY() < grid.length &&
+                position.getX() >= 0 && position.getX() < grid[position.getY()].length &&
+               grid[position.getY()][position.getX()] != '#';
     }
 
     public void displayMaze(Player player) {

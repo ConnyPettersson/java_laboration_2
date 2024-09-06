@@ -2,25 +2,23 @@ package org.example;
 
 public class Monster implements Movable {
     private String name;
-    private int x;
-    private int y;
+    private Position position;
     private int health;
     private int strength;
 
-    public Monster(String name, int x, int y, int health, int strength) {
+    public Monster(String name, Position position, int health, int strength) {
         this.name = name;
-        this.x = x;
-        this.y = y;
+        this.position = position;
         this.health = health;
         this.strength = strength;
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public String getName() {
@@ -28,16 +26,16 @@ public class Monster implements Movable {
     }
 
     public String  toString() {
-        return String.format("Monster %s at (%d, %d) with health %d and strength %d", name, x, y, health, strength);
+        return String.format("Monster %s at (%d, %d) with health %d and strength %d", name, position.getX(), position.getY(), health, strength);
     }
 
     @Override
     public void move(int dx, int dy, Maze maze) {
-        int newX = x + dx;
-        int newY = y + dy;
-        if (newY >= 0 && newY < maze.grid.length && newX >= 0 && newX < maze.grid[newY].length && maze.grid[newY][newX] != '#') {
-            x = newX;
-            y = newY;
+        int newX = position.getX() + dx;
+        int newY = position.getY() + dy;
+        Position newPosition = new Position(newX, newY);
+        if (maze.isValid(newPosition)) {
+            position = new Position(newX, newY);
         } else {
             System.out.println("Move blocked: " + name + " cannot move through walls.");
         }
