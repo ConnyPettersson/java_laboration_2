@@ -7,7 +7,10 @@ public class Game {
 
         Player player = new Player("Conan", 1, 3, 100, 10);
         Monster monster = new Monster("Zylox", 5, 5, 300, 50);
-        Treasure treasure = new Treasure(1, 2, 100);
+
+        Item item = new Item(1,2);
+        Treasure treasure = new Treasure(item, 100);
+        Upgrade upgrade = new Upgrade(item, "Long Sword");
 
         Maze maze = new Maze(new char[][]{
                 {'#', '#', '#', '#', '#'},
