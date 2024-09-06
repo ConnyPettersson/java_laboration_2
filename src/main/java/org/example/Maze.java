@@ -17,7 +17,7 @@ public class Maze {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (i == player.getY() && j == player.getX()) {
-                    System.out.print('P' + " ");
+                    System.out.print('C' + " ");
                 } else {
                     System.out.print(grid[i][j] + " ");
                 }
