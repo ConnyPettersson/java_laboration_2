@@ -37,7 +37,7 @@ public class Player implements Movable {
     public void move(int dx, int dy, Maze maze) {
         int newX = x + dx;
         int newY = y + dy;
-        if (newY >= 0 && newY < maze.grid.length && newX >= 0 && newX < maze.grid[newY].length && maze.grid[newY][newX] != '#') {
+        if (maze.isValid(newX, newY)) {
             x = newX;
             y = newY;
         } else {
