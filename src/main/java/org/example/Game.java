@@ -110,5 +110,12 @@ public class Game {
                 // logik för strid
             }
         }
+
+        for (Treasure treasure : treasures) {
+            if (player.getX() == treasure.getItemX() && player.getY() == treasure.getItemY()) {
+                System.out.println("You have found a Treasure!");
+                // Additional logic for collecting the treasure
+            }
+        }
     }
 }
