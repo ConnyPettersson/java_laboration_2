@@ -1,7 +1,6 @@
 package org.example;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Maze {
     char[][] grid;
@@ -19,40 +18,51 @@ public class Maze {
     public void displayMaze(Player player, List<Monster> monsters, List<Treasure> treasures, List<Upgrade> upgrades) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                boolean printed = false;
+                AtomicBoolean printed = new AtomicBoolean(false);
 
                 if (i == player.getY() && j == player.getX()) {
                     System.out.print('C' + " ");
-                    printed = true;
+                    printed.set(true);
                 }
 
                 final int row = i;
                 final int col = j;
-                int finalI = i;
-                int finalJ = j;
 
-                if (!printed && monsters.stream().anyMatch(monster -> monster.getY() == finalI && monster.getX() == finalJ)) {
-                    System.out.print('M' + " ");
-                    printed = true;
+                if (!printed.get()) {
+                    monsters.stream()
+                            .filter(monster -> monster.getY() == row && monster.getX() == col)
+                            .findFirst()
+                            .ifPresent(monster -> {
+                                System.out.print(monster.getSymbol() + " ");
+                                printed.set(true);
+                            });
                 }
 
-                if (!printed && treasures.stream().anyMatch(treasure -> treasure.item().position().getY() == row && treasure.item().position().getX() == col)) {
-                    System.out.print('T' + " ");
-                    printed = true;
+                if (!printed.get()) {
+                    treasures.stream()
+                            .filter(treasure -> treasure.item().position().getY() == row && treasure.item().position().getX() == col)
+                            .findFirst()
+                            .ifPresent(treasure -> {
+                                System.out.print('T' + " ");
+                                printed.set(true);
+                            });
                 }
 
-                if (!printed && upgrades.stream().anyMatch(upgrade -> upgrade.item().position().getY() == row && upgrade.item().position().getX() == col)) {
-                    System.out.print('U' + " ");
-                    printed = true;
+                if (!printed.get()) {
+                    upgrades.stream()
+                            .filter(upgrade -> upgrade.item().position().getY() == row && upgrade.item().position().getX() == col)
+                            .findFirst()
+                            .ifPresent(upgrade -> {
+                                System.out.print('U' + " ");
+                                printed.set(true);
+                            });
                 }
 
-                if (!printed) {
+                if (!printed.get()) {
                     System.out.print(grid[i][j] + " ");
                 }
             }
             System.out.println();
         }
     }
-
-
 }

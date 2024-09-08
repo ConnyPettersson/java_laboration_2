@@ -25,6 +25,15 @@ public class Monster implements Movable {
         return name;
     }
 
+    public char getSymbol() {
+        if(name.equals("Zylox")) {
+            return 'Z';
+        }else if (name.equals("Xiltor")) {
+            return 'x';
+        }
+        return 'M';
+    }
+
     public String  toString() {
         return String.format("Monster %s at (%d, %d) with health %d and strength %d", name, position.getX(), position.getY(), health, strength);
     }
