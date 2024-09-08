@@ -3,10 +3,10 @@ package org.example;
 import java.util.ArrayList;
 
 public class Player implements Movable {
-    private String name;
+    private final String name;
     private Position position;
     private int health;
-    private int strength;
+    private final int strength;
     private ArrayList<Item> items = new ArrayList<>();
     private String weapon;
 

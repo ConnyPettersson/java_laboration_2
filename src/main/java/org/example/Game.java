@@ -4,11 +4,12 @@ import java.util.*;
 public class Game {
     private static final int WIDTH = 13;
     private static final int HEIGHT = 11;
-    private static List<Monster> monsters = new ArrayList<>();
-    private static List<Treasure> treasures = new ArrayList<>();
-    private static List<Upgrade> upgrades = new ArrayList<>();
-    private static Random random = new Random();
-
+    private static final List<Monster> monsters = new ArrayList<>();
+    private static final List<Treasure> treasures = new ArrayList<>();
+    private static final List<Upgrade> upgrades = new ArrayList<>();
+    private static final Random random = new Random();
+    private static boolean treasureFound = false;
+    private static boolean gameRunning = true;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -35,12 +36,18 @@ public class Game {
 
 
         System.out.println("Welcome to the Maze of Death!");
-        System.out.println("You are Conny the Destroyer (displayed as C on the map)");
-        System.out.println("Armed with a Broad Sword, your mission is to take back the treasure that was stolen by the monsters and get to the Exit 'E'");
-        System.out.println("Along the way you may encounter upgrades that will help you along the way.");
-        System.out.println("But beware of the monsters Xiltor and Zylox guarding the treasure!!!");
-        while (true) {
+        System.out.println("You are Conny the Destroyer, a fearless warrior (displayed as 'C' on the map).");
+        System.out.println("Your mission: Retrieve the hidden treasure stolen by the monsters and escape through the Exit 'E'.");
+        System.out.println();
+        System.out.println("Beware! The maze is filled with deadly dangers:");
+        System.out.println("- The monsters Xiltor and Zylox lurk in the shadows, ready to strike when you least expect it.");
+        System.out.println("- The treasure is well-hidden, and you must find it before you can escape.");
+        System.out.println("- Upgrades are scattered throughout the maze, including weapons and potions to aid your quest.");
+        System.out.println();
+        System.out.println("Note: All monsters, treasures, and upgrades are invisible until you discover them.");
+        System.out.println("Move wisely, stay alert, and good luck on your journey!");
 
+        while (gameRunning) {
             maze.displayMaze(player);
             System.out.println(player);
             System.out.println("Enter your move with keys (WASD): ");
@@ -120,9 +127,10 @@ public class Game {
     private static void checkEncounters(Player player) {
 
         if (player.getX() == 11 && player.getY() == 1) {
-            if (treasures.isEmpty()) {
+            if (treasureFound) {
                 System.out.println("You have reached the exit with the treasure! You have won the game!");
                 System.exit(0);
+                gameRunning = false;
             } else {
                 System.out.println("You cannot exit yet! You still need to find the treasure.");
                 return;
@@ -160,6 +168,7 @@ public class Game {
             if (player.getX() == treasurePosition.getX() && player.getY() == treasurePosition.getY()) {
                 System.out.println("You have found the stolen treasure of " + treasure.value() + " gold coins!!! ");
                 System.out.println("Move fast to the exit!!!");
+                treasureFound = true;
                 treasureIterator.remove();
             }
         }

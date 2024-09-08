@@ -1,7 +1,7 @@
 package org.example;
 
 public class Monster implements Movable {
-    private String name;
+    private final String name;
     private Position position;
     private int health;
 
