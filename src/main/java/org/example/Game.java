@@ -42,7 +42,7 @@ public class Game {
         System.out.println("But beware of the monsters guarding the treasure!!!");
         while (true) {
 
-            maze.displayMaze(player);
+            maze.displayMaze(player, monsters, treasures, upgrades);
             System.out.println(player);
             System.out.println("Enter your move with keys (WASD): ");
             String move = sc.nextLine();
@@ -62,13 +62,18 @@ public class Game {
     }
 
     private static Position getRandomPosition(Maze maze) {
-        int x, y;
+        int newX, newY;
+        Position newPosition;
         do {
-            x = random.nextInt(WIDTH);
-            y = random.nextInt(HEIGHT);
-        } while (!maze.isValid(new Position(x, y)));
-        return new Position(x, y);
+            newX = random.nextInt(WIDTH);
+            newY = random.nextInt(HEIGHT);
+            newPosition = new Position(newX, newY);
+            System.out.println("Generated position: (" + newX + ", " + newY + ")");
+        } while (!maze.isValid(newPosition));
+
+        return newPosition;
     }
+
 
     private static void handlePlayerMove(String move, Player player, Maze maze) {
         int dx = 0, dy = 0;
@@ -108,6 +113,17 @@ public class Game {
             if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
                 System.out.println("You have encountered the Monster " + monster.getName() + "!");
                 // logik för strid
+            }
+        }
+
+
+        for (Treasure treasure : treasures) {
+            Item treasureItem = treasure.item();
+            Position treasurePosition = treasureItem.position();
+
+            if (player.getX() == treasurePosition.getX() && player.getY() == treasurePosition.getY()) {
+                System.out.println("You have found a Treasure!");
+
             }
         }
     }

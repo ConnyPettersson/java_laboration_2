@@ -37,7 +37,7 @@ public class Player implements Movable {
         int newY = position.getY() + dy;
         Position newPosition = new Position(newX, newY);
         if (maze.isValid(newPosition)) {
-            position = newPosition;  // Update the entire position object to the new position
+            position = newPosition;
         } else {
             System.out.println("Move blocked by a wall.");
         }
