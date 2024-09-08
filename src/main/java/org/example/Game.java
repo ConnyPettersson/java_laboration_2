@@ -21,28 +21,29 @@ public class Game {
         Maze maze = new Maze(new char[][]{
                 {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
                 {'#', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', 'E', '#'},
-                {'#', ' ', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', ' ', '#'},
-                {'#', ' ', '#', '#', ' ', ' ', 'T', '#', ' ', ' ', ' ', '#', '#'},
-                {'#', ' ', '#', ' ', ' ', '#', ' ', '#', '#', 'X', '#', ' ', '#'},
+                {'#', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', '#', ' ', ' ', '#'},
+                {'#', ' ', '#', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', '#'},
+                {'#', ' ', '#', ' ', ' ', '#', ' ', '#', '#', ' ', '#', ' ', '#'},
                 {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#'},
-                {'#', '#', '#', ' ', '#', ' ', '#', 'U', '#', ' ', '#', ' ', '#'},
+                {'#', '#', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#', ' ', '#'},
                 {'#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', '#'},
-                {'#', ' ', '#', 'Z', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#'},
+                {'#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#'},
                 {'#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#'},
-                {'#', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
+                {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
         });
+
 
         generateObjects(maze);
 
 
         System.out.println("Welcome to the Maze of Death!");
-        System.out.println("You are Conan (displayed as C on the map) armed with a Broad Sword.");
-        System.out.println("Your mission is to take back the treasure that was stolen by the monsters in the Maze");
+        System.out.println("You are Conny the Destroyer (displayed as C on the map)");
+        System.out.println("Armed with a Broad Sword, your mission is to take back the treasure that was stolen by the monsters and get to the Exit 'E'");
         System.out.println("Along the way you may encounter upgrades that will help you along the way.");
-        System.out.println("But beware of the monsters guarding the treasure!!!");
+        System.out.println("But beware of the monsters Xiltor and Zylox guarding the treasure!!!");
         while (true) {
 
-            maze.displayMaze(player, monsters, treasures, upgrades);
+            maze.displayMaze(player);
             System.out.println(player);
             System.out.println("Enter your move with keys (WASD): ");
             String move = sc.nextLine();
@@ -55,10 +56,15 @@ public class Game {
         treasures.clear();
         upgrades.clear();
 
-        monsters.add(new Monster("Zylox", getRandomPosition(maze), 300, 50));
-        monsters.add(new Monster("Xiltor", getRandomPosition(maze), 250, 40));
-        treasures.add(new Treasure(new Item(getRandomPosition(maze)), 100));
-        upgrades.add(new Upgrade(new Item(getRandomPosition(maze)), "Long Sword"));
+        Position monsterPosition1 = getRandomPosition(maze);
+        Position monsterPosition2 = getRandomPosition(maze);
+        Position treasurePosition = getRandomPosition(maze);
+        Position upgradePosition = getRandomPosition(maze);
+
+        monsters.add(new Monster("Zylox", monsterPosition1, 300, 50));
+        monsters.add(new Monster("Xiltor", monsterPosition2, 250, 40));
+        treasures.add(new Treasure(new Item(treasurePosition), 100));
+        upgrades.add(new Upgrade(new Item(upgradePosition), "Long Sword"));
     }
 
     private static Position getRandomPosition(Maze maze) {
@@ -112,18 +118,24 @@ public class Game {
         for (Monster monster : monsters) {
             if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
                 System.out.println("You have encountered the Monster " + monster.getName() + "!");
-                // logik för strid
             }
         }
-
 
         for (Treasure treasure : treasures) {
             Item treasureItem = treasure.item();
             Position treasurePosition = treasureItem.position();
 
             if (player.getX() == treasurePosition.getX() && player.getY() == treasurePosition.getY()) {
-                System.out.println("You have found a Treasure!");
+                System.out.println("You have found the stolen treasure worth " + treasure.value() + "!");
+            }
+        }
 
+        for (Upgrade upgrade : upgrades) {
+            Item upgradeItem = upgrade.item();
+            Position upgradePosition = upgradeItem.position();
+
+            if(player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
+                System.out.println("You have found the Magic Long Sword: " + upgrade.type() + "!");
             }
         }
     }
