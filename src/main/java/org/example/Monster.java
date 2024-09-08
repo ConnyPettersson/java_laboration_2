@@ -4,13 +4,11 @@ public class Monster implements Movable {
     private String name;
     private Position position;
     private int health;
-    private int strength;
 
-    public Monster(String name, Position position, int health, int strength) {
+    public Monster(String name, Position position, int health) {
         this.name = name;
         this.position = position;
         this.health = health;
-        this.strength = strength; //behövs ej
     }
 
     public int getX() {
@@ -43,7 +41,7 @@ public class Monster implements Movable {
     }
 
     public String  toString() {
-        return String.format("Monster %s at (%d, %d) with health %d and strength %d", name, position.getX(), position.getY(), health, strength);
+        return String.format("Monster %s at (%d, %d) with health %d", name, position.getX(), position.getY(), health);
     }
 
     @Override

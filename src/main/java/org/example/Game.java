@@ -59,10 +59,15 @@ public class Game {
         Position treasurePosition = getRandomPosition(maze);
         Position upgradePosition = getRandomPosition(maze);
 
-        monsters.add(new Monster("Zylox", monsterPosition1, 300, 50));
-        monsters.add(new Monster("Xiltor", monsterPosition2, 250, 40));
-        treasures.add(new Treasure(new Item(treasurePosition), 100));
+        monsters.add(new Monster("Zylox", monsterPosition1, 300));
+        monsters.add(new Monster("Xiltor", monsterPosition2, 250));
+        treasures.add(new Treasure(new Item(treasurePosition), 1000));
         upgrades.add(new Upgrade(new Item(upgradePosition), "Long Sword"));
+
+        for (int i = 0; i < 3; i++) {
+            Position healthPotionPosition = getRandomPosition(maze);
+            upgrades.add(new Upgrade(new Item(healthPotionPosition), "Health Potion"));
+        }
     }
 
     private static Position getRandomPosition(Maze maze) {
@@ -113,26 +118,38 @@ public class Game {
     }
 
     private static void checkEncounters(Player player) {
+
+        if (player.getX() == 11 && player.getY() == 1) {
+            if (treasures.isEmpty()) {
+                System.out.println("You have reached the exit with the treasure! You have won the game!");
+                System.exit(0);
+            } else {
+                System.out.println("You cannot exit yet! You still need to find the treasure.");
+                return;
+            }
+        }
+
         Iterator<Monster> monsterIterator = monsters.iterator();
         while (monsterIterator.hasNext()) {
             Monster monster = monsterIterator.next();
-        if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
-            System.out.println("You have encountered the Monster " + monster.getName() + "!");
+            if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
+                System.out.println("You have encountered the Monster " + monster.getName() + "!");
 
-            battle(player, monster);
+                battle(player, monster);
 
-            if (player.getHealth() <= 0) {
-                System.out.println("You have been defeated by " + monster.getName() + "...");
-                System.exit(0);
+                if (player.getHealth() <= 0) {
+                    System.out.println("You have been defeated by " + monster.getName());
+                    System.out.println("Game Over!!!");
+                    System.exit(0);
+                }
+
+                if (monster.getHealth() <= 0) {
+                    System.out.println("You have slain " + monster.getName() + "!");
+                    monsterIterator.remove();
+                }
+                return;
             }
-
-            if (monster.getHealth() <= 0) {
-                System.out.println("You have slain " + monster.getName() + "!");
-                monsterIterator.remove();
-            }
-            return;
         }
-    }
 
         Iterator<Treasure> treasureIterator = treasures.iterator();
         while (treasureIterator.hasNext()) {
@@ -141,7 +158,8 @@ public class Game {
             Position treasurePosition = treasureItem.position();
 
             if (player.getX() == treasurePosition.getX() && player.getY() == treasurePosition.getY()) {
-                System.out.println("You have found the stolen treasure worth " + treasure.value() + "!");
+                System.out.println("You have found the stolen treasure of " + treasure.value() + " gold coins!!! ");
+                System.out.println("Move fast to the exit!!!");
                 treasureIterator.remove();
             }
         }
@@ -152,15 +170,21 @@ public class Game {
             Item upgradeItem = upgrade.item();
             Position upgradePosition = upgradeItem.position();
 
-            if(player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
-                System.out.println("You have found the Magic Long Sword: " + upgrade.type() + "!");
-                player.upgradeWeapon(("Long Sword"));
-                upgradeIterator.remove();
+            if (player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
+                if (upgrade.type().equals("Long Sword")) {
+                    System.out.println("You have found the Magic: " + upgrade.type() + "!");
+                    player.upgradeWeapon("Long Sword");
+                    upgradeIterator.remove();
+                } else if (upgrade.type().equals("Health Potion")) {
+                    System.out.println("You have found a Health Potion! Your health is restored");
+                    player.setHealth(100);
+                    upgradeIterator.remove();
+                }
             }
         }
     }
 
-    private static void battle(Player player, Monster monster) {
+        private static void battle(Player player, Monster monster) {
         System.out.println("A fierce battle begins between " + player.getName() + " and " + monster.getName() + "!");
 
         while (player.getHealth() > 0 && monster.getHealth() > 0) {
@@ -173,7 +197,7 @@ public class Game {
                 break;
             }
 
-            int monsterDamage = 10;
+            int monsterDamage = 15;
             player.setHealth(player.getHealth() - monsterDamage);
             System.out.println(monster.getName() + " strikes " + player.getName() + " for " + monsterDamage + " damage!");
 
