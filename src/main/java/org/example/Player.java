@@ -66,7 +66,7 @@ public class Player implements Movable {
 
     public void upgradeWeapon(String newWeapon) {
         this.weapon = newWeapon;
-        System.out.println("You have equipped the " + newWeapon + "!");
+        System.out.println("You are now equipped with the " + newWeapon + " Soulreaper!");
     }
 
     public int getDamage() {

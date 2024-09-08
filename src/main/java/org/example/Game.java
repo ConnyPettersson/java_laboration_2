@@ -34,7 +34,7 @@ public class Game {
 
         generateObjects(maze);
 
-
+        System.out.println();
         System.out.println("Welcome to the Maze of Death!");
         System.out.println("You are Conny the Destroyer, a fearless warrior (displayed as 'C' on the map).");
         System.out.println("Your mission: Retrieve the hidden treasure stolen by the monsters and escape through the Exit 'E'.");
@@ -46,6 +46,7 @@ public class Game {
         System.out.println();
         System.out.println("Note: All monsters, treasures, and upgrades are invisible until you discover them.");
         System.out.println("Move wisely, stay alert, and good luck on your journey!");
+        System.out.println();
 
         while (gameRunning) {
             maze.displayMaze(player);
@@ -84,7 +85,6 @@ public class Game {
             newX = random.nextInt(WIDTH);
             newY = random.nextInt(HEIGHT);
             newPosition = new Position(newX, newY);
-            System.out.println("Generated position: (" + newX + ", " + newY + ")");
         } while (!maze.isValid(newPosition));
 
         return newPosition;
@@ -181,7 +181,7 @@ public class Game {
 
             if (player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
                 if (upgrade.type().equals("Long Sword")) {
-                    System.out.println("You have found the Magic: " + upgrade.type() + "!");
+                    System.out.println("You have found a magic item: " + upgrade.type() + "!");
                     player.upgradeWeapon("Long Sword");
                     upgradeIterator.remove();
                 } else if (upgrade.type().equals("Health Potion")) {
