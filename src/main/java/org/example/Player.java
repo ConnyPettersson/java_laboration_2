@@ -43,6 +43,9 @@ public class Player implements Movable {
         }
     }
 
+    public String getName() {
+        return name;
+    }
 
     public int getX() {
         return position.getX();
@@ -50,6 +53,18 @@ public class Player implements Movable {
 
     public int getY() {
         return position.getY();
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int setHealth(int health) {
+        return this.health = health;
+    }
+
+    public int getStrength() {
+        return strength;
     }
 
     @Override

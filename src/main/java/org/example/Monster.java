@@ -25,6 +25,19 @@ public class Monster implements Movable {
         return name;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    // Getter för strength
+    public int getStrength() {
+        return strength;
+    }
+
     public char getSymbol() {
         if(name.equals("Zylox")) {
             return 'Z';

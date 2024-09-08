@@ -118,6 +118,19 @@ public class Game {
         for (Monster monster : monsters) {
             if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
                 System.out.println("You have encountered the Monster " + monster.getName() + "!");
+
+                battle(player, monster);
+
+                if (player.getHealth() <= 0) {
+                    System.out.println("You have been defeated by " + monster.getName() + "...");
+                    System.exit(0);
+                }
+
+                if (monster.getHealth() <= 0) {
+                    System.out.println("You have slain " + monster.getName() + "!");
+                    monsters.remove(monster);
+                }
+                return;
             }
         }
 
@@ -136,6 +149,28 @@ public class Game {
 
             if(player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
                 System.out.println("You have found the Magic Long Sword: " + upgrade.type() + "!");
+            }
+        }
+    }
+
+    private static void battle(Player player, Monster monster) {
+        System.out.println("A fierce battle begins between " + player.getName() + " and " + monster.getName() + "!");
+
+        while (player.getHealth() > 0 && monster.getHealth() > 0) {
+            monster.setHealth(monster.getHealth() - player.getStrength());
+            System.out.println(player.getName() + " strikes " + monster.getName() + " for " + player.getStrength() + " damage!");
+
+            if (monster.getHealth() <= 0) {
+                System.out.println(monster.getName() + " has been defeated!");
+                break;
+            }
+
+            player.setHealth(player.getHealth() - monster.getStrength());
+            System.out.println(monster.getName() + " strikes " + player.getName() + " for " + monster.getStrength() + " damage!");
+
+            if (player.getHealth() <= 0) {
+                System.out.println(player.getName() + " has been slain by " + monster.getName() + "!");
+                break;
             }
         }
     }
