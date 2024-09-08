@@ -8,6 +8,7 @@ public class Player implements Movable {
     private int health;
     private int strength;
     private ArrayList<Item> items = new ArrayList<>();
+    private String weapon;
 
     public Player(String name, Position position, int health, int strength) {
         this.name = name;
@@ -15,7 +16,7 @@ public class Player implements Movable {
         this.health = health;
         this.strength = strength;
         this.items = new ArrayList<>();
-
+        this.weapon = "Broad Sword";
 
     }
 
@@ -63,8 +64,20 @@ public class Player implements Movable {
         return this.health = health;
     }
 
-    public int getStrength() {
-        return strength;
+    public void upgradeWeapon(String newWeapon) {
+        this.weapon = newWeapon;
+        System.out.println("You have equipped the " + newWeapon + "!");
+    }
+
+    public int getDamage() {
+        if (weapon.equals("Long Sword")) {
+            return 100; // Long Sword gör 100 i skada
+        }
+        return 50; // Broad Sword gör 50 i skada
+    }
+
+    public String getWeapon() {
+        return weapon;
     }
 
     @Override

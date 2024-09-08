@@ -1,8 +1,6 @@
 package org.example;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.List;
+import java.util.*;
+
 public class Game {
     private static final int WIDTH = 13;
     private static final int HEIGHT = 11;
@@ -115,40 +113,49 @@ public class Game {
     }
 
     private static void checkEncounters(Player player) {
-        for (Monster monster : monsters) {
-            if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
-                System.out.println("You have encountered the Monster " + monster.getName() + "!");
+        Iterator<Monster> monsterIterator = monsters.iterator();
+        while (monsterIterator.hasNext()) {
+            Monster monster = monsterIterator.next();
+        if (player.getX() == monster.getX() && player.getY() == monster.getY()) {
+            System.out.println("You have encountered the Monster " + monster.getName() + "!");
 
-                battle(player, monster);
+            battle(player, monster);
 
-                if (player.getHealth() <= 0) {
-                    System.out.println("You have been defeated by " + monster.getName() + "...");
-                    System.exit(0);
-                }
-
-                if (monster.getHealth() <= 0) {
-                    System.out.println("You have slain " + monster.getName() + "!");
-                    monsters.remove(monster);
-                }
-                return;
+            if (player.getHealth() <= 0) {
+                System.out.println("You have been defeated by " + monster.getName() + "...");
+                System.exit(0);
             }
-        }
 
-        for (Treasure treasure : treasures) {
+            if (monster.getHealth() <= 0) {
+                System.out.println("You have slain " + monster.getName() + "!");
+                monsterIterator.remove();
+            }
+            return;
+        }
+    }
+
+        Iterator<Treasure> treasureIterator = treasures.iterator();
+        while (treasureIterator.hasNext()) {
+            Treasure treasure = treasureIterator.next();
             Item treasureItem = treasure.item();
             Position treasurePosition = treasureItem.position();
 
             if (player.getX() == treasurePosition.getX() && player.getY() == treasurePosition.getY()) {
                 System.out.println("You have found the stolen treasure worth " + treasure.value() + "!");
+                treasureIterator.remove();
             }
         }
 
-        for (Upgrade upgrade : upgrades) {
+        Iterator<Upgrade> upgradeIterator = upgrades.iterator();
+        while (upgradeIterator.hasNext()) {
+            Upgrade upgrade = upgradeIterator.next();
             Item upgradeItem = upgrade.item();
             Position upgradePosition = upgradeItem.position();
 
             if(player.getX() == upgradePosition.getX() && player.getY() == upgradePosition.getY()) {
                 System.out.println("You have found the Magic Long Sword: " + upgrade.type() + "!");
+                player.upgradeWeapon(("Long Sword"));
+                upgradeIterator.remove();
             }
         }
     }
@@ -157,16 +164,18 @@ public class Game {
         System.out.println("A fierce battle begins between " + player.getName() + " and " + monster.getName() + "!");
 
         while (player.getHealth() > 0 && monster.getHealth() > 0) {
-            monster.setHealth(monster.getHealth() - player.getStrength());
-            System.out.println(player.getName() + " strikes " + monster.getName() + " for " + player.getStrength() + " damage!");
+            int playerDamage = player.getDamage();
+            monster.setHealth(monster.getHealth() - playerDamage);
+            System.out.println(player.getName() + " strikes " + monster.getName() + " for " + playerDamage + " damage!");
 
             if (monster.getHealth() <= 0) {
                 System.out.println(monster.getName() + " has been defeated!");
                 break;
             }
 
-            player.setHealth(player.getHealth() - monster.getStrength());
-            System.out.println(monster.getName() + " strikes " + player.getName() + " for " + monster.getStrength() + " damage!");
+            int monsterDamage = 10;
+            player.setHealth(player.getHealth() - monsterDamage);
+            System.out.println(monster.getName() + " strikes " + player.getName() + " for " + monsterDamage + " damage!");
 
             if (player.getHealth() <= 0) {
                 System.out.println(player.getName() + " has been slain by " + monster.getName() + "!");

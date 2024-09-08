@@ -10,7 +10,7 @@ public class Monster implements Movable {
         this.name = name;
         this.position = position;
         this.health = health;
-        this.strength = strength;
+        this.strength = strength; //behövs ej
     }
 
     public int getX() {
@@ -31,11 +31,6 @@ public class Monster implements Movable {
 
     public void setHealth(int health) {
         this.health = health;
-    }
-
-    // Getter för strength
-    public int getStrength() {
-        return strength;
     }
 
     public char getSymbol() {
